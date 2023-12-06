@@ -5,6 +5,7 @@ package com.learning.springboot.controller;
 import com.learning.springboot.dto.UserDto;
 import com.learning.springboot.entity.User;
 import com.learning.springboot.service.UserService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.apache.coyote.Response;
@@ -22,7 +23,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/add")
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto user){
+    public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto user){
         UserDto savedUser = userService.createUser(user);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
@@ -40,7 +41,7 @@ public class UserController {
      }
 
      @PutMapping("/update/{id}")
-        public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UserDto userDto){
+        public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody @Valid UserDto userDto){
             userDto.setId(id);
             UserDto updatedUser = userService.updateUser(userDto);
             return ResponseEntity.ok(updatedUser);
